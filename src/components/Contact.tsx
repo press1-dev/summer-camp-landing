@@ -190,7 +190,7 @@ export default function Contact() {
             <div className="p-8 lg:p-10 flex-1 flex flex-col relative overflow-hidden">
               {/* Subtle background decoration */}
               <div className="absolute top-1/4 right-0 w-64 h-64 bg-navy/5 rounded-full blur-3xl -z-0 pointer-events-none translate-x-1/2" />
-              
+
               <div className="relative z-10 flex flex-col h-full">
                 <div className="flex items-center justify-between mb-8 lg:mb-12">
                   <div>
@@ -199,7 +199,9 @@ export default function Contact() {
                     </h3>
                     <p className="text-[15px] text-ink-soft mt-1.5">
                       Sharing details for{" "}
-                      <span className={`text-${activeConfig.accent} font-bold underline decoration-dotted underline-offset-4`}>
+                      <span
+                        className={`text-${activeConfig.accent} font-bold underline decoration-dotted underline-offset-4`}
+                      >
                         {activeConfig.label}
                       </span>
                     </p>
@@ -431,7 +433,7 @@ export default function Contact() {
                       image: "/assets/sandip.png",
                     },
                     {
-                      role: "Support",
+                      role: "NY Partner",
                       name: "Sajan Poudel",
                       phone: "+1 (646) 436-6275",
                       phoneTel: "+16464366275",

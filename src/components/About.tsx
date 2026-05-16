@@ -12,7 +12,7 @@ export default function About() {
     },
     {
       title: "Small & mighty",
-      desc: "6 kids per class so every voice is heard.",
+      desc: "8 kids per class so every voice is heard.",
       icon: <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />,
       bg: "bg-green/10 text-green",
     },
