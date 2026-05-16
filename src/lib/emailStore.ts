@@ -4,7 +4,7 @@ import path from "path";
 const dataDir = path.join(process.cwd(), "apps", "web", "data");
 const tokensPath = path.join(dataDir, "oauth_tokens.json");
 
-export type ContactPayload = Record<string, string | number | boolean | null | undefined>;
+export type ContactPayload = Record<string, any>;
 
 export async function ensureDataDir() {
   await fs.promises.mkdir(dataDir, { recursive: true });

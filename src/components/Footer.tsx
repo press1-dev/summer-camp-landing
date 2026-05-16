@@ -84,7 +84,7 @@ const FOOTER_LINKS = {
     // },
     {
       label: "Facebook",
-      href: "#",
+      href: "https://www.facebook.com/profile.php?id=61567503912462",
       icon: (props: React.SVGProps<SVGSVGElement>) => (
         <svg
           {...props}

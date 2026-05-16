@@ -108,8 +108,11 @@ export async function sendContactEmail(
 }
 
 function makeText(p: ContactPayload) {
+  if (Array.isArray(p.details)) {
+    return p.details.map((d: any) => `${d.label}: ${d.value}`).join("\n");
+  }
   return Object.entries(p)
-    .filter(([k]) => !['recipients', 'via'].includes(k))
+    .filter(([k]) => !['recipients', 'via', 'details'].includes(k))
     .map(([k, v]) => `${k}: ${v}`)
     .join("\n");
 }
@@ -120,15 +123,17 @@ function makeHtml(p: ContactPayload) {
   const brandBg = "#fffaf1";
   const inkSoft = "#5a5475";
 
-  const rows = Object.entries(p)
-    .filter(([k]) => !['recipients', 'via'].includes(k))
-    .map(([k, v]) => {
-      const isLongText = typeof v === 'string' && v.length > 50;
+  const dataToRender = Array.isArray(p.details) 
+    ? p.details 
+    : Object.entries(p).filter(([k]) => !['recipients', 'via', 'details'].includes(k)).map(([k, v]) => ({ label: k, value: v }));
+
+  const rows = dataToRender.map(({ label, value }: any) => {
+      const isLongText = typeof value === 'string' && value.length > 50;
       return `
         <tr>
           <td style="padding-bottom: 24px; vertical-align: top;" colspan="${isLongText ? '2' : '1'}">
-            <p style="margin: 0; font-size: 11px; font-weight: 900; color: rgba(31, 24, 64, 0.4); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;">${escapeHtml(k)}</p>
-            <p style="margin: 0; font-size: 15px; font-weight: 600; color: #1f1840; white-space: pre-wrap;">${escapeHtml(String(v))}</p>
+            <p style="margin: 0; font-size: 11px; font-weight: 900; color: rgba(31, 24, 64, 0.4); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;">${escapeHtml(String(label))}</p>
+            <p style="margin: 0; font-size: 15px; font-weight: 600; color: #1f1840; white-space: pre-wrap;">${escapeHtml(String(value))}</p>
           </td>
         </tr>
       `;

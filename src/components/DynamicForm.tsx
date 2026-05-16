@@ -24,19 +24,13 @@ export interface FormStep {
 
 const COMMON_STEPS: FormStep[] = [
   {
-    title: "Student Details",
-    subtitle: "Tell us about the learner",
+    title: "Registration Details",
+    subtitle: "Student and parent information",
     fields: [
       { name: "studentName", label: "Student's Full Name", type: "text", required: true, icon: <User size={16} />, halfWidth: true },
       { name: "studentAge", label: "Student Age", type: "text", required: true, icon: <Smile size={16} />, halfWidth: true },
       { name: "studentGrade", label: "Current Grade", type: "text", required: true, icon: <Target size={16} />, halfWidth: true },
       { name: "location", label: "City, State, Country", type: "text", required: true, icon: <Globe size={16} />, halfWidth: true },
-    ]
-  },
-  {
-    title: "Contact Info",
-    subtitle: "How can we reach you?",
-    fields: [
       { name: "parentName", label: "Parent's Full Name", type: "text", required: true, icon: <User size={16} />, halfWidth: true },
       { name: "zoomEmail", label: "Email for Zoom Class", type: "email", required: true, icon: <Monitor size={16} />, halfWidth: true },
       { name: "parentEmail", label: "Parent's Email (Optional)", type: "email", icon: <Mail size={16} />, halfWidth: true },
@@ -100,8 +94,8 @@ interface DynamicFormProps {
   accent: string;
 }
 
-const inputCls = "w-full px-4 py-3 bg-cream/50 border-2 border-line rounded-xl text-ink font-semibold text-[14px] transition-all duration-200 focus:outline-none focus:bg-white placeholder:text-ink-mute placeholder:font-normal";
-const selectCls = "w-full px-4 py-3 bg-cream/50 border-2 border-line rounded-xl text-ink font-semibold text-[14px] transition-all duration-200 focus:outline-none focus:bg-white appearance-none cursor-pointer pr-10";
+const inputCls = "w-full px-5 py-4 bg-cream/50 border-2 border-line rounded-xl text-ink font-semibold text-[15px] transition-all duration-200 focus:outline-none focus:bg-white placeholder:text-ink-mute placeholder:font-normal";
+const selectCls = "w-full px-5 py-4 bg-cream/50 border-2 border-line rounded-xl text-ink font-semibold text-[15px] transition-all duration-200 focus:outline-none focus:bg-white appearance-none cursor-pointer pr-10";
 const radioGroupCls = "flex gap-3";
 const radioLabelCls = "flex-1 flex items-center justify-center gap-2 px-3 py-2.5 border-2 border-line rounded-xl cursor-pointer transition-all duration-200 select-none text-[13px] font-semibold text-navy bg-cream/50 hover:bg-cream";
 
@@ -180,7 +174,18 @@ export default function DynamicForm({ programId, accent }: DynamicFormProps) {
 
     setStatus("submitting");
     try {
-      const payload = { ...formData, programType: programId };
+      const allFields = steps.flatMap(s => s.fields);
+      const details = Object.entries(formData).map(([key, value]) => {
+        const field = allFields.find(f => f.name === key);
+        return { label: field ? field.label : key, value };
+      });
+
+      const payload = { 
+        ...formData, 
+        programType: programId,
+        details 
+      };
+      
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -308,7 +313,7 @@ export default function DynamicForm({ programId, accent }: DynamicFormProps) {
         <p className="text-[13px] text-ink-soft mt-1">{activeStep.subtitle}</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-4 flex-1 items-start content-start">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 lg:gap-y-10 flex-1 items-start content-start">
         {activeStep.fields.map(renderField)}
       </div>
 

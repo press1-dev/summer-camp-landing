@@ -1,13 +1,12 @@
 export default function Marquee() {
   const items = [
-    "June 2026 workshop enrollment is now open",
-    "June 2026 workshop enrollment is now open",
-    "June 2026 workshop enrollment is now open",
-    "June 2026 workshop enrollment is now open",
-    "June 2026 workshop enrollment is now open",
-    "June 2026 workshop enrollment is now open",
-    "June 2026 workshop enrollment is now open",
-    "June 2026 workshop enrollment is now open",
+    "SUMMER PERSONAL DEVELOPMENT PROGRAM ENROLLMENT NOW OPEN",
+    "SUMMER PERSONAL DEVELOPMENT PROGRAM ENROLLMENT NOW OPEN",
+    "SUMMER PERSONAL DEVELOPMENT PROGRAM ENROLLMENT NOW OPEN",
+    "SUMMER PERSONAL DEVELOPMENT PROGRAM ENROLLMENT NOW OPEN",
+    "SUMMER PERSONAL DEVELOPMENT PROGRAM ENROLLMENT NOW OPEN",
+    "SUMMER PERSONAL DEVELOPMENT PROGRAM ENROLLMENT NOW OPEN",
+    "SUMMER PERSONAL DEVELOPMENT PROGRAM ENROLLMENT NOW OPEN",
   ];
 
   return (
