@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "Alloria Learning Center",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.jpeg",
         width: 1200,
         height: 630,
         alt: "Alloria Learning Center",
@@ -54,12 +54,12 @@ export const metadata: Metadata = {
     title: "Alloria Learning Center — Personal Development Workshop",
     description:
       "Build confidence and leadership skills this summer with Alloria.",
-    images: ["/og-image.png"],
+    images: ["https://allorialearning.com/og-image.jpeg"],
   },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/og-image.png",
+    apple: "/og-image.jpeg",
   },
 };
 
