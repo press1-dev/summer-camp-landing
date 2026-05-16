@@ -359,25 +359,16 @@ export default function Contact() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <rect
-                          x="3"
-                          y="4"
-                          width="18"
-                          height="18"
-                          rx="2"
-                          ry="2"
-                        />
-                        <line x1="16" y1="2" x2="16" y2="6" />
-                        <line x1="8" y1="2" x2="8" y2="6" />
-                        <line x1="3" y1="10" x2="21" y2="10" />
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
                       </svg>
                     </div>
                     <div>
                       <div className="text-white/40 text-[10px] font-black uppercase tracking-widest leading-none mb-1">
-                        Dates
+                        Time
                       </div>
                       <div className="text-white text-[14px] font-bold leading-tight">
-                        1st week of June
+                        Sat 7 &ndash; 9 am
                       </div>
                     </div>
                   </div>

@@ -84,7 +84,6 @@ const FINAL_STEP: FormStep = {
   title: "Final Details",
   subtitle: "Almost there!",
   fields: [
-    { name: "demoTime", label: "Preferred Day/Time for Demo Class?", type: "text", icon: <Calendar size={16} />, placeholder: "e.g., Wed 5pm, Weekend 10am" },
     { name: "extraNotes", label: "Anything else we should know?", type: "textarea", icon: <MessageSquare size={16} /> },
   ]
 };
