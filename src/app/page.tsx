@@ -40,14 +40,12 @@ export default function Home() {
           <Courses />
           <CtaSection />
           <About />
-          {/* <Stats /> */}
-          {/* <Testimonials /> */}
+          <Stats />
+          <Testimonials />
           <Contact />
-
         </div>
       </main>
-      {/* <Footer /> */}
-
+      <Footer />
     </div>
   );
 }

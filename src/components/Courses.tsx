@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import {
   CheckCircle2,
@@ -96,10 +97,11 @@ export default function Courses() {
             <div className="bg-white rounded-[24px] p-2.5 shadow-lg border border-line h-full flex flex-col">
               {/* Image — grows to fill available space */}
               <div className="rounded-[18px] flex-1 min-h-[220px] relative overflow-hidden bg-gradient-to-br from-[#70a4ff] to-navy">
-                <img
+                <Image
                   src="/SapanaSharma.png"
                   alt="Sapana Sharma – Workshop Instructor"
-                  className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40"
+                  fill
+                  className="object-cover mix-blend-overlay opacity-40"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent" />
                 {/* Top badge */}

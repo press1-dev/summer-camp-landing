@@ -15,9 +15,52 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Alloria Learning Center — Personal Development Workshop",
+  title: "Alloria Learning Center — Personal Development & Leadership Workshop",
   description:
-    "An online personal development and leadership workshop for school, high school, and college students.",
+    "Empower your child with Alloria Learning Center's online personal development and leadership workshop. Small groups, interactive sessions for students aged 3-12.",
+  keywords: [
+    "personal development",
+    "leadership workshop",
+    "kids leadership",
+    "public speaking for kids",
+    "online summer camp",
+    "confidence building",
+    "alloria learning",
+  ],
+  authors: [{ name: "Sandip Poudel" }],
+  metadataBase: new URL("https://allorialearning.com"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Alloria Learning Center — Personal Development Workshop",
+    description:
+      "Online personal development and leadership workshop for growing minds.",
+    url: "https://allorialearning.com",
+    siteName: "Alloria Learning Center",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Alloria Learning Center",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alloria Learning Center — Personal Development Workshop",
+    description:
+      "Build confidence and leadership skills this summer with Alloria.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/og-image.png",
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +69,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fredoka.variable} ${nunito.variable} scroll-smooth`}>
+    <html
+      lang="en"
+      className={`${fredoka.variable} ${nunito.variable} scroll-smooth`}
+    >
       <body className="min-h-full flex flex-col font-body">{children}</body>
     </html>
   );

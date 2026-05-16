@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function About() {
   const values = [
     {
@@ -66,17 +68,19 @@ export default function About() {
             <div className="absolute inset-0 bg-green/5 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] animate-blob blur-2xl -z-10"></div>
             
             <div className="absolute top-0 left-0 w-[65%] aspect-square bg-purple rounded-[24px] rotate-[-6deg] overflow-hidden shadow-2xl border-6 border-white transition-transform hover:rotate-0 duration-500">
-              <img
+              <Image
                 src="/assets/about-classroom.png"
-                alt="Learning Environment"
-                className="w-full h-full object-cover"
+                alt="Workshop Learning Environment"
+                fill
+                className="object-cover"
               />
             </div>
             <div className="absolute bottom-0 right-0 w-[60%] aspect-square bg-pink rounded-full overflow-hidden shadow-2xl border-6 border-white transition-transform hover:scale-105 duration-500">
-              <img
+              <Image
                 src="/assets/sandip.png"
-                alt="Our Founder"
-                className="w-full h-full object-cover"
+                alt="Sandip Poudel - Founder of Alloria Learning"
+                fill
+                className="object-cover"
               />
             </div>
             
