@@ -1,0 +1,29 @@
+[
+  {
+    "fname": "Sakar",
+    "email": "khadka.sakar10@gmail.com",
+    "phone": "1234567890",
+    "age": "high-school",
+    "interest": "personal-development",
+    "message": "Testing email alloria ",
+    "receivedAt": "2026-05-15T13:29:41.912Z"
+  },
+  {
+    "fname": "demo kumar",
+    "email": "sakarkhadka1999@gmail.com",
+    "phone": "1234567890",
+    "age": "school",
+    "interest": "confidence",
+    "message": "Hello this is demo email ",
+    "receivedAt": "2026-05-15T13:21:39.630Z"
+  },
+  {
+    "fname": "Sakar",
+    "email": "demo@gamil.com",
+    "phone": "1234567890",
+    "age": "school",
+    "interest": "personal-development",
+    "message": "Demo Details",
+    "receivedAt": "2026-05-15T13:19:06.106Z"
+  }
+]

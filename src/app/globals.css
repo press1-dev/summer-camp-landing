@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Brand palette */
+  --color-navy: #2b1b7a;
+  --color-pink: #e94b95;
+  --color-green: #7ab840;
+  --color-amber: #f2a93b;
+  --color-coral: #f25a5a;
+  --color-orange: #f47b20;
+  --color-purple: #9b4dca;
+
+  /* Neutrals & Backgrounds */
+  --color-cream: #fff1dc;
+  --color-mint: #e8f5dc;
+  --color-sky: #e4f0fa;
+  --color-blush: #fde5ee;
+  --color-peach: #ffe5d2;
+  --color-lilac: #efe3fa;
+
+  --color-background: #fffaf1;
+  --color-ink: #1f1840;
+  --color-ink-soft: #5a5475;
+  --color-ink-mute: #8a86a0;
+  --color-line: #ece6d6;
+
+  /* Typography */
+  --font-display: var(--font-fredoka), system-ui, sans-serif;
+  --font-body: var(--font-nunito), system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Custom Transitions & Radii */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 40px;
+
+  /* Custom Animations */
+  @keyframes blob {
+    0%,
+    100% {
+      border-radius: 48% 52% 60% 40% / 50% 60% 40% 50%;
+    }
+    33% {
+      border-radius: 60% 40% 50% 50% / 40% 55% 45% 60%;
+    }
+    66% {
+      border-radius: 40% 60% 45% 55% / 60% 40% 60% 40%;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes pulse-custom {
+    0% {
+      transform: translate(-50%, -100%) scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: translate(-50%, -100%) scale(3);
+      opacity: 0;
+    }
+  }
+
+  --animate-blob: blob 14s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-spin-slow: spin-slow 10s linear infinite;
+  --animate-pulse-custom: pulse-custom 2s ease-out infinite;
+}
+
+:root {
+  --background: #fffaf1;
+  --foreground: #1f1840;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
