@@ -262,8 +262,8 @@ export default function Footer() {
               <ContactItem
                 icon={Mail}
                 title="Support Email"
-                value="info@alloria.com"
-                href="mailto:info@alloria.com"
+                value="allorialearning@gmail.com"
+                href="mailto:allorialearning@gmail.com"
               />
               <ContactItem
                 icon={MapPin}
