@@ -1,134 +1,109 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import Image from "next/image";
+import { 
+  User, 
+  Mail, 
+  Phone, 
+  Smile, 
+  Star, 
+  MessageSquare, 
+  ChevronDown, 
+  Monitor, 
+  Users, 
+  Calendar, 
+  Briefcase, 
+  BookOpen, 
+  Zap, 
+  Award, 
+  Clock,
+  Target,
+  Layout,
+  MousePointer2
+} from "lucide-react";
+import DynamicForm from "./DynamicForm";
 
 // ─── Icons ───────────────────────────────────────────────────────────────────
-const IconUser = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-  </svg>
-);
-const IconMail = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-  </svg>
-);
-const IconPhone = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
-  </svg>
-);
-const IconSmile = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
-  </svg>
-);
-const IconStar = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-  </svg>
-);
-const IconMsg = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-);
-const IconChevron = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M6 9l6 6 6-6"/>
-  </svg>
-);
+const IconUser = () => <User size={16} strokeWidth={2.2} />;
+const IconMail = () => <Mail size={16} strokeWidth={2.2} />;
+const IconPhone = () => <Phone size={16} strokeWidth={2.2} />;
+const IconSmile = () => <Smile size={16} strokeWidth={2.2} />;
+const IconStar = () => <Star size={16} strokeWidth={2.2} />;
+const IconMsg = () => <MessageSquare size={16} strokeWidth={2.2} />;
+const IconChevron = () => <ChevronDown size={14} strokeWidth={2.5} />;
 
-// ─── Field wrapper ────────────────────────────────────────────────────────────
-function Field({
-  label,
-  id,
-  icon,
-  error,
-  children,
-}: {
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+type ProgramId = "computer" | "academics" | "personal";
+
+interface ProgramConfig {
+  id: ProgramId;
   label: string;
-  id: string;
-  icon: React.ReactNode;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label
-        htmlFor={id}
-        className="flex items-center gap-1.5 text-[11px] font-black text-navy uppercase tracking-[0.12em] pl-1"
-      >
-        <span className="text-navy/40">{icon}</span>
-        {label}
-      </label>
-      {children}
-      {error && (
-        <span className="flex items-center gap-1.5 pl-1 text-[11px] text-coral font-bold">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 8v4m0 4h.01" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-          </svg>
-          {error}
-        </span>
-      )}
-    </div>
-  );
+  badge: string;
+  title: string;
+  desc: string;
+  accent: string;
+  sessions: string[];
+  features: { label: string; value: string; icon: React.ReactNode }[];
 }
 
-// ─── Shared style strings ─────────────────────────────────────────────────────
-const inputCls =
-  "w-full px-5 py-3.5 bg-cream border-2 border-line rounded-2xl text-ink font-semibold text-[15px] transition-all duration-200 focus:outline-none focus:border-coral focus:bg-white focus:shadow-md focus:shadow-coral/8 placeholder:text-ink-mute placeholder:font-normal";
+const PROGRAMS: Record<ProgramId, ProgramConfig> = {
+  computer: {
+    id: "computer",
+    label: "Computer Class",
+    badge: "Tech & Coding",
+    title: "Master the digital world.",
+    desc: "Hands-on training in coding, web design, and digital literacy designed for the next generation of innovators.",
+    accent: "coral",
+    sessions: ["Morning Batch (9:00 AM - 11:00 AM)", "Afternoon Batch (2:00 PM - 4:00 PM)", "Weekend Intensive"],
+    features: [
+      { label: "Focus", value: "Coding & Design", icon: <Monitor size={16} /> },
+      { label: "Ages", value: "8 – 18", icon: <Users size={16} /> },
+      { label: "Format", value: "Lab Based", icon: <Layout size={16} /> },
+      { label: "Outcome", value: "Project Portfolio", icon: <Briefcase size={16} /> }
+    ]
+  },
+  academics: {
+    id: "academics",
+    label: "Academics",
+    badge: "School Success",
+    title: "Reach your full potential.",
+    desc: "Specialized tutoring in Math, Science, and Language Arts to boost grades and build academic confidence.",
+    accent: "navy",
+    sessions: ["Weekly Tutoring", "Exam Prep Intensive", "Home Assignment Support"],
+    features: [
+      { label: "Subjects", value: "Math, Sci, English", icon: <BookOpen size={16} /> },
+      { label: "Method", value: "1-on-1 focus", icon: <Target size={16} /> },
+      { label: "Frequency", value: "2-3 days/week", icon: <Calendar size={16} /> },
+      { label: "Goal", value: "Grade Improvement", icon: <Star size={16} /> }
+    ]
+  },
+  personal: {
+    id: "personal",
+    label: "Personal Development",
+    badge: "Leadership",
+    title: "Build lasting confidence.",
+    desc: "Workshops focused on public speaking, emotional intelligence, and leadership skills for young achievers.",
+    accent: "green",
+    sessions: ["Foundation Course (4 Weeks)", "Advanced Leadership (8 Weeks)", "Public Speaking Workshop"],
+    features: [
+      { label: "Skills", value: "Soft Skills & EQ", icon: <Zap size={16} /> },
+      { label: "Approach", value: "Activity based", icon: <MousePointer2 size={16} /> },
+      { label: "Schedule", value: "Weekend Workshops", icon: <Clock size={16} /> },
+      { label: "Certification", value: "Global Standard", icon: <Award size={16} /> }
+    ]
+  }
+};
 
-const selectCls =
-  "w-full px-5 py-3.5 bg-cream border-2 border-line rounded-2xl text-ink font-semibold text-[15px] transition-all duration-200 focus:outline-none focus:border-coral focus:bg-white focus:shadow-md focus:shadow-coral/8 appearance-none cursor-pointer pr-10";
-
+// ─── Field wrapper ────────────────────────────────────────────────────────────
 // ─── Main component ───────────────────────────────────────────────────────────
 export default function Contact() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const fname   = (fd.get("fname")   as string) ?? "";
-    const email   = (fd.get("email")   as string) ?? "";
-    const age     = (fd.get("age")     as string) ?? "";
-    const errs: Record<string, string> = {};
-    if (!fname.trim())                                   errs.fname   = "Please tell us your name";
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))     errs.email   = "Add a valid email";
-    if (!age)                                            errs.age     = "Pick an age range";
-    // Message is optional for a seamless experience
-
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-
-    setErrors({});
-    setStatus("submitting");
-    (async () => {
-      try {
-        const body = Object.fromEntries(new FormData(e.currentTarget) as any);
-        const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-        const json = await res.json();
-        if (json.ok) {
-          setStatus('success');
-          (e.target as HTMLFormElement).reset();
-          setTimeout(() => setStatus('idle'), 6000);
-        } else {
-          setStatus('idle');
-          setErrors({ message: 'Failed to send. Please try again later.' });
-          console.error('Contact send failed', json);
-        }
-      } catch (err) {
-        setStatus('idle');
-        setErrors({ message: 'Network error. Please try again.' });
-        console.error(err);
-      }
-    })();
-  };
+  const [activeTab, setActiveTab] = useState<ProgramId>("computer");
+  const activeConfig = useMemo(() => PROGRAMS[activeTab], [activeTab]);
 
   return (
     <section id="contact" className="relative bg-background py-20 lg:py-28 overflow-hidden">
-      {/* Background blobs */}
       <div className="absolute inset-0 pointer-events-none -z-0">
         <div className="absolute top-[-80px] left-1/2 -translate-x-1/2 w-[700px] h-[380px] bg-lilac/35 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-[-60px] w-80 h-80 bg-mint/50 rounded-full blur-3xl" />
@@ -136,216 +111,126 @@ export default function Contact() {
       </div>
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-6">
-        {/* Section header */}
-        <div className="max-w-[560px] mx-auto text-center mb-12 reveal">
+        <div className="max-w-[650px] mx-auto text-center mb-12 reveal">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-navy/5 rounded-full mb-5">
             <span className="w-2 h-2 bg-coral rounded-full animate-pulse" />
-            <span className="text-[11px] font-black text-navy uppercase tracking-[0.15em]">Get in touch</span>
+            <span className="text-[11px] font-black text-navy uppercase tracking-[0.15em]">Inquiry Form</span>
           </div>
           <h2 className="text-[clamp(32px,4.5vw,54px)] text-navy leading-[1.05] mb-4">
-            Connect with us,{" "}
-            <span className="relative inline-block">
-              <span className="relative z-10 text-coral">from anywhere.</span>
-              <svg className="absolute -bottom-1.5 left-0 w-full" viewBox="0 0 220 10" preserveAspectRatio="none">
-                <path d="M0,7 Q55,0 110,7 T220,7" fill="none" stroke="#f2a93b" strokeWidth="4" strokeLinecap="round" opacity="0.65"/>
-              </svg>
-            </span>
+            Start your student&apos;s <span className="text-coral italic">journey here.</span>
           </h2>
           <p className="text-[17px] text-ink-soft leading-relaxed">
-            Ask about the personal development workshop or tell us about the student you want to enroll — we reply within one school day.
+            Select a program below to see available sessions and pricing details. 
+            We usually respond to all inquiries within one school day.
           </p>
         </div>
 
-        {/* Two-column layout */}
-        <div className="grid lg:grid-cols-[1fr_380px] gap-7 reveal items-start">
+        {/* Tab Switcher */}
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex p-1.5 bg-navy/5 backdrop-blur-sm rounded-[24px] border border-navy/5 shadow-inner">
+            {(Object.values(PROGRAMS)).map((p) => (
+              <button
+                key={p.id}
+                onClick={() => setActiveTab(p.id)}
+                className={`px-6 py-3 rounded-[20px] text-[14px] font-bold transition-all duration-300 flex items-center gap-2 ${
+                  activeTab === p.id 
+                    ? "bg-white text-navy shadow-sm scale-105" 
+                    : "text-navy/50 hover:text-navy/80 hover:bg-white/50"
+                }`}
+              >
+                <div className={`w-1.5 h-1.5 rounded-full ${activeTab === p.id ? `bg-${p.accent}` : "bg-transparent"}`} />
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-          {/* LEFT: Form card */}
-          <div className="bg-white rounded-[32px] border border-line shadow-xl shadow-navy/5 overflow-hidden flex flex-col h-full">
-            <div className="h-1.5 w-full bg-linear-to-r from-coral via-amber to-green" />
+        <div className="grid lg:grid-cols-[1fr_380px] gap-7 reveal items-start">
+          <div className="bg-white rounded-[32px] border border-line shadow-xl shadow-navy/5 overflow-hidden flex flex-col h-full transition-all duration-500">
+            <div className={`h-1.5 w-full bg-${activeConfig.accent} transition-colors duration-500`} />
 
             <div className="p-8 lg:p-10 flex-1 flex flex-col">
-              {/* Card header */}
-              <div className="flex items-center justify-between mb-7">
+              <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h3 className="text-[26px] font-display font-bold text-navy leading-tight">Send us a note ✉️</h3>
-                  <p className="text-[14px] text-ink-soft mt-1">We&apos;ll be in touch within 24 hours.</p>
+                  <h3 className="text-[26px] font-display font-bold text-navy leading-tight">
+                    Program Inquiry ✉️
+                  </h3>
+                  <p className="text-[14px] text-ink-soft mt-1">
+                    Sharing details for <span className={`text-${activeConfig.accent} font-bold`}>{activeConfig.label}</span>
+                  </p>
                 </div>
-                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-green/10 rounded-full shrink-0">
+                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-green/10 rounded-full">
                   <span className="w-1.5 h-1.5 bg-green rounded-full animate-pulse" />
-                  <span className="text-[10px] font-black text-green uppercase tracking-wider">Online</span>
+                  <span className="text-[10px] font-black text-green uppercase tracking-wider">Fast Reply</span>
                 </div>
               </div>
 
-              {/* Success banner */}
-              {status === "success" && (
-                <div className="mb-6 p-4 bg-mint rounded-2xl border-2 border-green/25 flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-green grid place-items-center text-white shrink-0 shadow-md shadow-green/25">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="font-display font-bold text-[#2d6e12] text-[15px]">Message received! 🎉</div>
-                    <div className="text-[13px] text-ink-soft">We&apos;ll reach out soon.</div>
-                  </div>
-                </div>
-              )}
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5 flex-1">
-
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <Field label="Student&apos;s name" id="fname" icon={<IconUser />} error={errors.fname}>
-                    <input
-                      id="fname" name="fname" type="text"
-                      placeholder="Student name"
-                      className={inputCls}
-                    />
-                  </Field>
-
-                  <Field label="Email address" id="email" icon={<IconMail />} error={errors.email}>
-                    <input
-                      id="email" name="email" type="email"
-                      placeholder="jane@email.com"
-                      className={inputCls}
-                    />
-                  </Field>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <Field label="Phone number" id="phone" icon={<IconPhone />}>
-                    <input
-                      id="phone" name="phone" type="tel"
-                      placeholder="+1 (720) 242-6452"
-                      className={inputCls}
-                    />
-                  </Field>
-
-                  <Field label="Age / grade level" id="age" icon={<IconSmile />} error={errors.age}>
-                    <div className="relative">
-                      <select id="age" name="age" defaultValue="" className={selectCls}>
-                        <option value="" disabled>Select level</option>
-                        <option value="school">School student</option>
-                        <option value="high-school">High school student</option>
-                        <option value="college">College student</option>
-                      </select>
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-ink-mute">
-                        <IconChevron />
-                      </span>
-                    </div>
-                  </Field>
-                </div>
-
-                <Field label="Program of interest" id="interest" icon={<IconStar />}>
-                  <div className="relative">
-                    <select id="interest" name="interest" className={selectCls}>
-                      <option value="personal-development">Personal Development & Leadership</option>
-                      <option value="communication">Communication & Public Speaking</option>
-                      <option value="confidence">Confidence Building</option>
-                      <option value="general">General inquiry</option>
-                    </select>
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-ink-mute">
-                      <IconChevron />
-                    </span>
-                  </div>
-                </Field>
-
-                <Field label="Student details (Optional)" id="message" icon={<IconMsg />} error={errors.message}>
-                  <textarea
-                    id="message" name="message" rows={4}
-                    placeholder="Anything we should know about the student or your preferred timing?"
-                    className={`${inputCls} resize-none`}
-                  />
-                </Field>
-
-                <button
-                  type="submit"
-                  disabled={status === "submitting"}
-                  className="group relative mt-1 w-full overflow-hidden inline-flex items-center justify-center gap-3 px-8 py-4 bg-coral text-white rounded-2xl font-display font-bold text-[17px] shadow-[0_6px_0_#c63b3b] hover:shadow-[0_2px_0_#c63b3b] hover:translate-y-[4px] active:translate-y-[6px] active:shadow-none transition-all duration-200 disabled:opacity-60 disabled:pointer-events-none"
-                >
-                  {status === "submitting" ? (
-                    <>
-                      <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="31.4" strokeDashoffset="10" strokeLinecap="round"/>
-                      </svg>
-                      Sending…
-                    </>
-                  ) : (
-                    <>
-                      Send message
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5">
-                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>
-                      </svg>
-                    </>
-                  )}
-                </button>
-              </form>
+              <DynamicForm programId={activeTab} accent={activeConfig.accent} />
             </div>
           </div>
 
-          {/* RIGHT: Brand panel + contact cards */}
-          <div className="flex flex-col gap-4">
-
-            {/* Brand panel */}
-            <div className="relative rounded-[32px] overflow-hidden bg-navy px-8 py-8">
-              <div className="absolute top-0 right-0 w-44 h-44 bg-coral/20 rounded-full blur-2xl pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-36 h-36 bg-amber/20 rounded-full blur-2xl pointer-events-none" />
-              <div className="absolute top-5 right-5 grid grid-cols-4 gap-1.5 opacity-15 pointer-events-none">
-                {Array.from({ length: 16 }).map((_, i) => (
-                  <div key={i} className="w-1 h-1 bg-white rounded-full" />
-                ))}
+          {/* RIGHT: Static info panel */}
+          <div className="flex flex-col gap-6">
+            {/* Summer camp banner */}
+            <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-br from-[#1E114D] to-[#3B1977] px-8 py-10 shadow-lg shadow-navy/10 group">
+              <div className="absolute top-8 right-8 opacity-20">
+                <div className="grid grid-cols-4 gap-1.5">
+                  {[...Array(16)].map((_, i) => <div key={i} className="w-1.5 h-1.5 rounded-full bg-white" />)}
+                </div>
               </div>
 
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-amber/20 rounded-full mb-5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f2a93b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="4"/>
-                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/10 mb-6">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#f2a93b]">
+                    <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
                   </svg>
-                  <span className="text-amber text-[11px] font-black uppercase tracking-widest">Summer 2026</span>
+                  <span className="text-[#f2a93b] text-[11px] font-black uppercase tracking-widest">Summer 2026</span>
                 </div>
-                <h4 className="font-display font-bold text-white text-[22px] leading-snug mb-3">
-                  Small groups.<br />Big confidence.<br />Real growth.
+
+                <h4 className="font-display font-bold text-white text-[28px] leading-[1.1] mb-4">
+                  Small groups.<br/>Big confidence.<br/>Real growth.
                 </h4>
-                <p className="text-white/55 text-[13px] leading-relaxed">
+                <p className="text-white/70 text-[14px] leading-relaxed mb-8 pr-4">
                   Every seat is limited. Fill out the form and we&apos;ll reserve your spot right away.
                 </p>
-                <div className="my-5 h-px bg-white/10" />
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-                  {([
-                    {
-                      svg: <><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></>,
-                      label: "Ages",
-                      value: "3 – 12",
-                    },
-                    {
-                      svg: <><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></>,
-                      label: "Format",
-                      value: "100% online",
-                    },
-                    {
-                      svg: <><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></>,
-                      label: "Dates",
-                      value: "1st week of June",
-                    },
-                    {
-                      svg: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>,
-                      label: "Class size",
-                      value: "Max 8 students",
-                    },
-                  ] as { svg: React.ReactNode; label: string; value: string }[]).map((f) => (
-                    <div key={f.label} className="flex items-start gap-2.5">
-                      <div className="w-7 h-7 rounded-lg bg-white/10 grid place-items-center shrink-0 mt-0.5">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          {f.svg}
-                        </svg>
-                      </div>
-                      <div>
-                        <div className="text-white/40 text-[10px] font-black uppercase tracking-widest leading-none mb-0.5">{f.label}</div>
-                        <div className="text-white/85 text-[12.5px] font-bold leading-tight">{f.value}</div>
-                      </div>
+
+                <div className="grid grid-cols-2 gap-y-6 gap-x-4 border-t border-white/10 pt-6">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-white/10 grid place-items-center text-white/70 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
                     </div>
-                  ))}
+                    <div>
+                      <div className="text-white/40 text-[10px] font-black uppercase tracking-widest leading-none mb-1">Ages</div>
+                      <div className="text-white text-[14px] font-bold leading-tight">3 &ndash; 12</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-white/10 grid place-items-center text-white/70 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <div>
+                      <div className="text-white/40 text-[10px] font-black uppercase tracking-widest leading-none mb-1">Format</div>
+                      <div className="text-white text-[14px] font-bold leading-tight">100% online</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-white/10 grid place-items-center text-white/70 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <div>
+                      <div className="text-white/40 text-[10px] font-black uppercase tracking-widest leading-none mb-1">Dates</div>
+                      <div className="text-white text-[14px] font-bold leading-tight">1st week of June</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-white/10 grid place-items-center text-white/70 shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div>
+                      <div className="text-white/40 text-[10px] font-black uppercase tracking-widest leading-none mb-1">Class Size</div>
+                      <div className="text-white text-[14px] font-bold leading-tight">Max 8 students</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

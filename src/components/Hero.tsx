@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="pt-[clamp(80px,8vw,110px)] pb-[clamp(40px,6vw,80px)] overflow-hidden bg-[radial-gradient(ellipse_60%_50%_at_85%_15%,rgba(242,169,59,0.18),transparent_60%),radial-gradient(ellipse_50%_50%_at_10%_90%,rgba(122,184,64,0.16),transparent_60%),var(--background)] relative"
+      className="pt-6 pb-[clamp(40px,6vw,80px)] overflow-hidden bg-[radial-gradient(ellipse_60%_50%_at_85%_15%,rgba(242,169,59,0.18),transparent_60%),radial-gradient(ellipse_50%_50%_at_10%_90%,rgba(122,184,64,0.16),transparent_60%),var(--background)] relative"
     >
       {/* Decorative Background Elements */}
       <div className="absolute top-20 left-[5%] w-32 h-32 bg-coral/5 rounded-full blur-3xl -z-10 animate-pulse" />
@@ -13,8 +13,9 @@ export default function Hero() {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10 relative">
         <div className="grid lg:grid-cols-2 gap-12 xl:gap-16 items-center">
           <div className="reveal">
-            <div className="inline-flex items-center gap-2.5 p-1.5 pr-4 bg-white/80 backdrop-blur-sm border border-line rounded-full font-bold text-[13px] text-navy shadow-sm mb-5 transition-transform hover:scale-[1.02] cursor-default">
-              <span className="w-7 h-7 rounded-full bg-amber grid place-items-center text-white shadow-sm">
+            {/* Badge Container */}
+            {/* <div className="inline-flex items-center gap-2.5 p-1.5 pr-4 bg-white/80 backdrop-blur-sm border border-line rounded-full font-bold text-[13px] text-navy shadow-sm mb-5 transition-transform hover:scale-[1.02] cursor-default">
+              <span className="w-7 h-7 uppercase rounded-full bg-amber grid place-items-center text-white shadow-sm">
                 <svg
                   width="14"
                   height="14"
@@ -27,9 +28,10 @@ export default function Hero() {
                   <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                 </svg>
               </span>
-              June 2026 workshop enrollment is now open
-
-            </div>
+              <span className="font-bold uppercase">
+                June 2026 workshop enrollment is now open
+              </span>
+            </div> */}
 
             <h1 className="text-[clamp(38px,5vw,68px)] font-display font-bold leading-[1.05] mb-4 text-navy">
               Summer Workshop for{" "}
@@ -55,8 +57,9 @@ export default function Hero() {
 
             <p className="text-[clamp(16px,1.1vw,19px)] text-ink-soft mb-8 max-w-[500px] leading-relaxed">
               Build stronger communication, confidence, and leadership skills in
-              a small group setting. Practical sessions designed for school, high
-              school, and college students ready for real growth this summer.
+              a small group setting. Practical sessions designed for school,
+              high school, and college students ready for real growth this
+              summer.
             </p>
 
             <div className="flex flex-wrap items-center gap-3.5 mb-8">
@@ -96,7 +99,6 @@ export default function Hero() {
               </a>
             </div>
 
-
             <div className="flex flex-wrap gap-x-8 gap-y-5 pt-8 border-t border-dashed border-line">
               <div className="flex items-center gap-3.5 group">
                 <div className="w-12 h-12 rounded-xl bg-coral/10 text-coral grid place-items-center transition-colors group-hover:bg-coral group-hover:text-white">
@@ -114,7 +116,7 @@ export default function Hero() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-[11px] text-ink-mute font-bold uppercase tracking-[0.1em] leading-none mb-1">
+                  <div className="text-[11px] text-ink-mute font-bold uppercase tracking-widest leading-none mb-1">
                     Call us today
                   </div>
                   <div className="font-display font-bold text-base text-ink">
@@ -139,13 +141,12 @@ export default function Hero() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-[11px] text-ink-mute font-bold uppercase tracking-[0.1em] leading-none mb-1">
+                  <div className="text-[11px] text-ink-mute font-bold uppercase tracking-widest leading-none mb-1">
                     Founder & Director
                   </div>
                   <div className="font-display font-bold text-base text-ink">
                     Sandip Poudel
                   </div>
-
                 </div>
               </div>
               <div className="flex items-center gap-3.5 group">
@@ -165,7 +166,7 @@ export default function Hero() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-[11px] text-ink-mute font-bold uppercase tracking-[0.1em] leading-none mb-1">
+                  <div className="text-[11px] text-ink-mute font-bold uppercase tracking-widest leading-none mb-1">
                     Course Duration
                   </div>
                   <div className="font-display font-bold text-base text-ink">
@@ -183,12 +184,12 @@ export default function Hero() {
             {/* Background Blob */}
             <div className="absolute inset-[-5%] bg-amber/20 animate-blob blur-2xl"></div>
             <div className="absolute inset-0 bg-amber/30 animate-blob [animation-delay:2s]"></div>
-            
+
             {/* Image Container */}
             <div className="absolute inset-[5%] rounded-[30%_70%_70%_30%/30%_30%_70%_70%] overflow-hidden bg-linear-to-br from-coral to-orange shadow-[0_20px_50px_rgba(242,90,90,0.3)] border-6 border-white group transition-transform duration-500 hover:scale-[1.02]">
               <Image
-                src="/assets/hero-kids.png"
-                alt="Kids learning"
+                src="/SapanaSharma.png"
+                alt="SapanaSharma Profile"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 priority
@@ -196,7 +197,7 @@ export default function Hero() {
             </div>
 
             {/* Floating Stickers */}
-            <div className="absolute top-[2%] -left-[5%] bg-white rounded-xl shadow-xl p-3 flex items-center gap-2.5 animate-float border border-line">
+            <div className="absolute top-[2%] left-[-5%] bg-white rounded-xl shadow-xl p-3 flex items-center gap-2.5 animate-float border border-line">
               <div className="w-9 h-9 rounded-lg bg-green grid place-items-center text-white shadow-md shadow-green/20 shrink-0">
                 <svg
                   width="20"
@@ -221,7 +222,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="absolute bottom-[18%] -right-[5%] bg-white rounded-xl shadow-xl p-3 flex items-center gap-2.5 animate-float [animation-delay:1.5s] border border-line">
+            <div className="absolute bottom-[18%] right-[-5%] bg-white rounded-xl shadow-xl p-3 flex items-center gap-2.5 animate-float [animation-delay:1.5s] border border-line">
               <div className="w-9 h-9 rounded-lg bg-purple grid place-items-center text-white shadow-md shadow-purple/20 shrink-0">
                 <svg
                   width="20"
@@ -247,7 +248,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="absolute -bottom-[2%] left-[10%] bg-white rounded-xl shadow-xl p-3 flex items-center gap-2.5 animate-float [animation-delay:3s] border border-line">
+            <div className="absolute bottom-[-2%] left-[10%] bg-white rounded-xl shadow-xl p-3 flex items-center gap-2.5 animate-float [animation-delay:3s] border border-line">
               <div className="w-9 h-9 rounded-lg bg-pink grid place-items-center text-white shadow-md shadow-pink/20 shrink-0">
                 <svg
                   width="20"

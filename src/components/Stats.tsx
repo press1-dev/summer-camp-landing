@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from "react";
 
 const STATS = [
   {
-    target: 2400,
+    target: 200,
+    suffix: "+",
     label: "Happy students",
     icon: (
       <>
@@ -17,7 +18,8 @@ const STATS = [
     bg: "bg-coral",
   },
   {
-    target: 38,
+    target: 12,
+    suffix: "+",
     label: "Programs running",
     icon: (
       <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
@@ -25,7 +27,7 @@ const STATS = [
     bg: "bg-green",
   },
   {
-    target: 98,
+    target: 100,
     suffix: "%",
     label: "Parent satisfaction",
     icon: (
@@ -34,7 +36,7 @@ const STATS = [
     bg: "bg-amber",
   },
   {
-    target: 12,
+    target: 2,
     suffix: "+",
     label: "Years of joy",
     icon: <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />,
@@ -64,6 +66,7 @@ function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   useEffect(() => {
     if (!visible) return;
     let startTimestamp: number | null = null;
+    let requestId: number;
     const duration = 1400;
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp;
@@ -71,10 +74,11 @@ function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(eased * target));
       if (progress < 1) {
-        window.requestAnimationFrame(step);
+        requestId = window.requestAnimationFrame(step);
       }
     };
-    window.requestAnimationFrame(step);
+    requestId = window.requestAnimationFrame(step);
+    return () => window.cancelAnimationFrame(requestId);
   }, [visible, target]);
 
   return (

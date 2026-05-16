@@ -5,10 +5,10 @@ import { writeMessages, readMessages } from '@/lib/emailStore';
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const { fname, email, phone, age, interest, message } = data;
-    if (!fname || !email) return NextResponse.json({ ok: false, error: 'Missing required fields' }, { status: 400 });
+    const { studentName, zoomEmail } = data;
+    if (!studentName || !zoomEmail) return NextResponse.json({ ok: false, error: 'Missing required fields' }, { status: 400 });
 
-    const payload = { fname, email, phone, age, interest, message, receivedAt: new Date().toISOString() };
+    const payload = { ...data, receivedAt: new Date().toISOString() };
 
     // store submission
     const stored = await readMessages('submissions');

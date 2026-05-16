@@ -1,14 +1,6 @@
 import { readMessages, writeMessages } from "./emailStore";
 
-type ContactPayload = {
-  fname: string;
-  email: string;
-  phone?: string;
-  age?: string;
-  interest?: string;
-  message?: string;
-  receivedAt?: string;
-};
+type ContactPayload = Record<string, any>;
 
 const DEFAULT_RECIPIENTS = [
   "sushanthona04@gmail.com",
@@ -29,7 +21,7 @@ export async function sendContactEmail(
       const { Resend } = require("resend");
       const resend = new Resend(process.env.RESEND_API_KEY);
 
-      const subject = `New inquiry from ${payload.fname} — ${payload.interest || "inquiry"}`;
+      const subject = `New inquiry from ${payload.studentName || "User"} — ${payload.programType || "inquiry"}`;
 
       const { data, error } = await resend.emails.send({
         from: process.env.FROM_EMAIL || "Alloria <onboarding@resend.dev>",
@@ -54,7 +46,7 @@ export async function sendContactEmail(
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const sg = require("@sendgrid/mail");
       sg.setApiKey(process.env.SENDGRID_API_KEY);
-      const subject = `New inquiry from ${payload.fname} — ${payload.interest || "inquiry"}`;
+      const subject = `New inquiry from ${payload.studentName || "User"} — ${payload.programType || "inquiry"}`;
       const body = makeHtml(payload);
       const msg = {
         to: recipients,
@@ -92,7 +84,7 @@ export async function sendContactEmail(
           process.env.SMTP_USER ||
           "no-reply@alloria.com",
         to: recipients.join(","),
-        subject: `New inquiry from ${payload.fname} — ${payload.interest || "inquiry"}`,
+        subject: `New inquiry from ${payload.studentName || "User"} — ${payload.programType || "inquiry"}`,
         text: makeText(payload),
         html: makeHtml(payload),
       });
@@ -117,24 +109,31 @@ export async function sendContactEmail(
 }
 
 function makeText(p: ContactPayload) {
-  return [
-    `Name: ${p.fname}`,
-    `Email: ${p.email}`,
-    `Phone: ${p.phone || ""}`,
-    `Age: ${p.age || ""}`,
-    `Interest: ${p.interest || ""}`,
-    "",
-    "Message:",
-    p.message || "",
-  ].join("\n");
+  return Object.entries(p)
+    .filter(([k]) => !['recipients', 'via'].includes(k))
+    .map(([k, v]) => `${k}: ${v}`)
+    .join("\n");
 }
 
 function makeHtml(p: ContactPayload) {
   const brandNavy = "#2b1b7a";
   const brandCoral = "#f25a5a";
-  const brandAmber = "#f2a93b";
   const brandBg = "#fffaf1";
   const inkSoft = "#5a5475";
+
+  const rows = Object.entries(p)
+    .filter(([k]) => !['recipients', 'via'].includes(k))
+    .map(([k, v]) => {
+      const isLongText = typeof v === 'string' && v.length > 50;
+      return `
+        <tr>
+          <td style="padding-bottom: 24px; vertical-align: top;" colspan="${isLongText ? '2' : '1'}">
+            <p style="margin: 0; font-size: 11px; font-weight: 900; color: rgba(31, 24, 64, 0.4); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;">${escapeHtml(k)}</p>
+            <p style="margin: 0; font-size: 15px; font-weight: 600; color: #1f1840; white-space: pre-wrap;">${escapeHtml(String(v))}</p>
+          </td>
+        </tr>
+      `;
+    }).join("");
 
   return `
     <!DOCTYPE html>
@@ -153,7 +152,7 @@ function makeHtml(p: ContactPayload) {
                 <span style="font-size: 11px; font-weight: 900; color: ${brandCoral}; text-transform: uppercase; letter-spacing: 0.15em;">New Message Received</span>
               </div>
               <h1 style="margin: 0; font-size: 32px; font-weight: 700; color: ${brandNavy}; line-height: 1.1;">
-                Inquiry from <span style="color: ${brandCoral};">${escapeHtml(p.fname)}</span>
+                Inquiry from <span style="color: ${brandCoral};">${escapeHtml(p.studentName || p.parentName || 'User')}</span>
               </h1>
               <p style="margin: 12px 0 0; font-size: 16px; color: ${inkSoft};">You have a new submission from the Alloria contact form.</p>
             </td>
@@ -164,37 +163,8 @@ function makeHtml(p: ContactPayload) {
             <td style="padding: 0 40px;">
               <div style="height: 1px; background-color: #ece6d6; margin: 10px 0 30px;"></div>
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td width="50%" style="padding-bottom: 24px; vertical-align: top;">
-                    <p style="margin: 0; font-size: 11px; font-weight: 900; color: rgba(31, 24, 64, 0.4); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;">Email Address</p>
-                    <p style="margin: 0; font-size: 15px; font-weight: 600; color: #1f1840;">${escapeHtml(p.email)}</p>
-                  </td>
-                  <td width="50%" style="padding-bottom: 24px; vertical-align: top;">
-                    <p style="margin: 0; font-size: 11px; font-weight: 900; color: rgba(31, 24, 64, 0.4); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;">Phone Number</p>
-                    <p style="margin: 0; font-size: 15px; font-weight: 600; color: #1f1840;">${escapeHtml(p.phone || "Not provided")}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="50%" style="padding-bottom: 24px; vertical-align: top;">
-                    <p style="margin: 0; font-size: 11px; font-weight: 900; color: rgba(31, 24, 64, 0.4); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;">Age / Level</p>
-                    <p style="margin: 0; font-size: 15px; font-weight: 600; color: #1f1840;">${escapeHtml(p.age || "Not specified")}</p>
-                  </td>
-                  <td width="50%" style="padding-bottom: 24px; vertical-align: top;">
-                    <p style="margin: 0; font-size: 11px; font-weight: 900; color: rgba(31, 24, 64, 0.4); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;">Program Interest</p>
-                    <p style="margin: 0; font-size: 15px; font-weight: 600; color: #1f1840;">${escapeHtml(p.interest || "General Inquiry")}</p>
-                  </td>
-                </tr>
+                ${rows}
               </table>
-            </td>
-          </tr>
-
-          <!-- Message Box -->
-          <tr>
-            <td style="padding: 0 40px 40px;">
-              <div style="background-color: ${brandBg}; border: 2px solid #ece6d6; border-radius: 20px; padding: 24px;">
-                <p style="margin: 0; font-size: 11px; font-weight: 900; color: rgba(31, 24, 64, 0.4); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px;">Student Details / Message</p>
-                <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #1f1840; white-space: pre-wrap;">${p.message ? escapeHtml(p.message) : '<em style="color: #8a86a0;">No message provided</em>'}</p>
-              </div>
             </td>
           </tr>
 

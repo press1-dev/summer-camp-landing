@@ -34,8 +34,10 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main>
+        <div className="pt-20">
+          <Marquee />
+        </div>
         <Hero />
-        <Marquee />
         <div className="flex flex-col gap-y-0">
           <Courses />
           <CtaSection />
