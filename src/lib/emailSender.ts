@@ -1,6 +1,5 @@
 import { readMessages, writeMessages } from "./emailStore";
-
-type ContactPayload = Record<string, any>;
+import type { ContactPayload } from "./emailStore";
 
 const DEFAULT_RECIPIENTS = [
   "sushanthona04@gmail.com",
@@ -18,6 +17,7 @@ export async function sendContactEmail(
   // 1. Try Resend (Preferred)
   if (process.env.RESEND_API_KEY) {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { Resend } = require("resend");
       const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -43,7 +43,7 @@ export async function sendContactEmail(
   if (process.env.SENDGRID_API_KEY) {
     try {
       // dynamic import to keep builds safe when package missing
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const sg = require("@sendgrid/mail");
       sg.setApiKey(process.env.SENDGRID_API_KEY);
       const subject = `New inquiry from ${payload.studentName || "User"} — ${payload.programType || "inquiry"}`;
@@ -66,7 +66,7 @@ export async function sendContactEmail(
   // 3. Try SMTP via nodemailer
   if (process.env.SMTP_HOST && process.env.SMTP_USER) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const nodemailer = require("nodemailer");
       const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
@@ -97,9 +97,8 @@ export async function sendContactEmail(
   // No email provider configured: persist to local storage for later pickup
   try {
     const now = new Date().toISOString();
-    payload.receivedAt = now;
     const stored = await readMessages("submissions");
-    stored.unshift({ ...payload, recipients, via: "file" });
+    stored.unshift({ ...payload, receivedAt: now, recipients: recipients.join(","), via: "file" });
     await writeMessages("submissions", stored);
     return { ok: true, via: "file" };
   } catch (e) {
@@ -152,7 +151,7 @@ function makeHtml(p: ContactPayload) {
                 <span style="font-size: 11px; font-weight: 900; color: ${brandCoral}; text-transform: uppercase; letter-spacing: 0.15em;">New Message Received</span>
               </div>
               <h1 style="margin: 0; font-size: 32px; font-weight: 700; color: ${brandNavy}; line-height: 1.1;">
-                Inquiry from <span style="color: ${brandCoral};">${escapeHtml(p.studentName || p.parentName || 'User')}</span>
+                Inquiry from <span style="color: ${brandCoral};">${escapeHtml(String(p.studentName || p.parentName || 'User'))}</span>
               </h1>
               <p style="margin: 12px 0 0; font-size: 16px; color: ${inkSoft};">You have a new submission from the Alloria contact form.</p>
             </td>

@@ -102,6 +102,7 @@ export default function Courses() {
                   alt="Sapana Sharma – Workshop Instructor"
                   fill
                   className="object-cover mix-blend-overlay opacity-40"
+                  sizes="260px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent" />
                 {/* Top badge */}

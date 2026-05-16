@@ -1,15 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Image from "next/image";
 import { 
-  User, 
-  Mail, 
-  Phone, 
-  Smile, 
   Star, 
-  MessageSquare, 
-  ChevronDown, 
   Monitor, 
   Users, 
   Calendar, 
@@ -23,15 +16,6 @@ import {
   MousePointer2
 } from "lucide-react";
 import DynamicForm from "./DynamicForm";
-
-// ─── Icons ───────────────────────────────────────────────────────────────────
-const IconUser = () => <User size={16} strokeWidth={2.2} />;
-const IconMail = () => <Mail size={16} strokeWidth={2.2} />;
-const IconPhone = () => <Phone size={16} strokeWidth={2.2} />;
-const IconSmile = () => <Smile size={16} strokeWidth={2.2} />;
-const IconStar = () => <Star size={16} strokeWidth={2.2} />;
-const IconMsg = () => <MessageSquare size={16} strokeWidth={2.2} />;
-const IconChevron = () => <ChevronDown size={14} strokeWidth={2.5} />;
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -165,14 +149,14 @@ export default function Contact() {
                 </div>
               </div>
 
-              <DynamicForm programId={activeTab} accent={activeConfig.accent} />
+              <DynamicForm key={activeTab} programId={activeTab} accent={activeConfig.accent} />
             </div>
           </div>
 
           {/* RIGHT: Static info panel */}
           <div className="flex flex-col gap-6">
             {/* Summer camp banner */}
-            <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-br from-[#1E114D] to-[#3B1977] px-8 py-10 shadow-lg shadow-navy/10 group">
+            <div className="relative rounded-[32px] overflow-hidden bg-linear-to-br from-[#1E114D] to-[#3B1977] px-8 py-10 shadow-lg shadow-navy/10 group">
               <div className="absolute top-8 right-8 opacity-20">
                 <div className="grid grid-cols-4 gap-1.5">
                   {[...Array(16)].map((_, i) => <div key={i} className="w-1.5 h-1.5 rounded-full bg-white" />)}
@@ -236,7 +220,7 @@ export default function Contact() {
             </div>
 
             {/* Contact directory card */}
-            <div className="bg-white rounded-[28px] border border-line shadow-sm overflow-hidden">
+            <div className="bg-white rounded-lg border border-line shadow-sm overflow-hidden">
               <div className="px-5 pt-5 pb-3 border-b border-line">
                 <p className="text-[10px] font-black text-ink-mute uppercase tracking-[0.15em]">Our team</p>
               </div>

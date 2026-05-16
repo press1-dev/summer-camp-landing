@@ -3,10 +3,6 @@ import { Mail, Phone, MapPin, ArrowRight, LucideIcon } from "lucide-react";
 import Link from "next/link";
 
 // --- Types & Constants ---
-interface FooterLink {
-  label: string;
-  href: string;
-}
 
 const FOOTER_LINKS = {
   explore: [
@@ -89,7 +85,7 @@ const FOOTER_LINKS = {
     {
       label: "Facebook",
       href: "#",
-      icon: (props: any) => (
+      icon: (props: React.SVGProps<SVGSVGElement>) => (
         <svg
           {...props}
           xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +130,7 @@ const SocialIcon = ({
   label,
   href,
 }: {
-  icon: any;
+  icon: (props: React.SVGProps<SVGSVGElement>) => React.ReactNode;
   label: string;
   href: string;
 }) => (
@@ -203,6 +199,7 @@ export default function Footer() {
                   alt="Alloria Learning Center"
                   fill
                   className="object-contain brightness-0 invert"
+                  sizes="96px"
                   priority
                 />
               </div>

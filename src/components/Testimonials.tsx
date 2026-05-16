@@ -35,7 +35,7 @@ export default function Testimonials() {
             Loved by families
           </div>
           <h2 className="text-[clamp(32px,4vw,52px)] mb-4">Real words from real parents</h2>
-          <p className="text-lg text-ink-soft">Trusted by hundreds of Bay-Area families. Here's what they say after a season with us.</p>
+          <p className="text-lg text-ink-soft">Trusted by hundreds of Bay-Area families. Here&apos;s what they say after a season with us.</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -47,7 +47,7 @@ export default function Testimonials() {
               }`}
             >
               <div className={`font-display text-[64px] leading-[0.5] mb-[-20px] ${r.featured ? "text-amber" : "text-coral"}`}>
-                "
+                &quot;
               </div>
               <p className={`text-[16.5px] leading-relaxed flex-1 ${r.featured ? "text-white" : "text-ink"}`}>
                 {r.quote}

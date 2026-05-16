@@ -73,6 +73,7 @@ export default function About() {
                 alt="Workshop Learning Environment"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 65vw, 340px"
               />
             </div>
             <div className="absolute bottom-0 right-0 w-[60%] aspect-square bg-pink rounded-full overflow-hidden shadow-2xl border-6 border-white transition-transform hover:scale-105 duration-500">
@@ -81,6 +82,7 @@ export default function About() {
                 alt="Sandip Poudel - Founder of Alloria Learning"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 60vw, 310px"
               />
             </div>
             
@@ -142,11 +144,13 @@ export default function About() {
                 
                 <div className="flex flex-col sm:flex-row items-center gap-8 relative z-10">
                   <div className="shrink-0 relative">
-                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-white/20 shadow-xl rotate-3 group-hover:rotate-0 transition-transform duration-500">
-                      <img
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-white/20 shadow-xl rotate-3 group-hover:rotate-0 transition-transform duration-500 relative">
+                      <Image
                         src="/assets/sandip.png"
                         alt="Sandip Poudel"
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 96px, 112px"
                       />
                     </div>
                     {/* Tiny badge */}

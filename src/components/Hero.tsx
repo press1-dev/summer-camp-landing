@@ -192,6 +192,7 @@ export default function Hero() {
                 alt="SapanaSharma Profile"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, 520px"
                 priority
               />
             </div>

@@ -72,6 +72,7 @@ export default function Navbar() {
               alt="Alloria Learning Center"
               fill
               className="object-contain"
+              sizes="112px"
               priority
             />
           </div>

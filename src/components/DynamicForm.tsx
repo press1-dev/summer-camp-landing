@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { User, Mail, Phone, Smile, MessageSquare, ChevronRight, ChevronLeft, Calendar, Info, Target, Layout, Monitor, Globe, ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { User, Mail, Phone, Smile, MessageSquare, ChevronRight, ChevronLeft, Calendar, Info, Target, Monitor, Globe, ChevronDown } from "lucide-react";
 
 type FieldType = "text" | "email" | "tel" | "select" | "radio" | "textarea";
 
@@ -137,13 +137,7 @@ export default function DynamicForm({ programId, accent }: DynamicFormProps) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const styles = getAccentStyles(accent);
 
-  // Reset form when switching tabs, but keep step 0 if they haven't started. 
-  // Alternatively, keep common data like name/email to not annoy users if they switch.
-  useEffect(() => {
-    setCurrentStep(0);
-    setErrors({});
-    setStatus("idle");
-  }, [programId]);
+
 
   const steps = [...COMMON_STEPS, ...(PROGRAM_SCHEMAS[programId] || []), FINAL_STEP];
   const activeStep = steps[currentStep];
@@ -203,7 +197,7 @@ export default function DynamicForm({ programId, accent }: DynamicFormProps) {
       } else {
         setStatus("error");
       }
-    } catch (err) {
+    } catch {
       setStatus("error");
     }
   };

@@ -72,8 +72,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${fredoka.variable} ${nunito.variable} scroll-smooth`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-body">{children}</body>
+      <body className="min-h-full flex flex-col font-body" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }
