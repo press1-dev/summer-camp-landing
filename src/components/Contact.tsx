@@ -368,7 +368,7 @@ export default function Contact() {
                         Time
                       </div>
                       <div className="text-white text-[14px] font-bold leading-tight">
-                        Sat 7 &ndash; 9 am
+                        Sat 7 &ndash; 11 am
                       </div>
                     </div>
                   </div>
@@ -418,7 +418,7 @@ export default function Contact() {
                       name: "Sandip Poudel",
                       phone: "+1 (720) 243-6452",
                       phoneTel: "+17202436452",
-                      email: "poudel@magical-edu.com",
+                      email: "Allorialearning@gmail.com",
                       accent: "#f25a5a",
                       initials: "SP",
                       image: "/assets/sandip.png",
@@ -436,9 +436,19 @@ export default function Contact() {
                     {
                       role: "General",
                       name: "Support Line",
-                      phone: "+1 (720) 242-6452",
-                      phoneTel: "+17202426452",
-                      email: "info@alloria.com",
+                      phone: "+1 (720) 243-6452",
+                      phoneTel: "+17202436452",
+                      email: "Allorialearning@gmail.com",
+                      accent: "#7ab840",
+                      initials: "AL",
+                      image: "/assets/support-image.png",
+                    },
+                    {
+                      role: "General",
+                      name: "Support Line (Nepal)",
+                      phone: "+977 9762119277",
+                      phoneTel: "+9779762119277",
+                      email: "Allorialearning@gmail.com",
                       accent: "#7ab840",
                       initials: "AL",
                       image: "/assets/support-image.png",
