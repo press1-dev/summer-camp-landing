@@ -3,7 +3,11 @@ import type { ContactPayload } from "./emailStore";
 
 const DEFAULT_RECIPIENTS = [
   "sushanthona04@gmail.com",
-  "ashishacharya0@gmail.com",
+
+  
+  "elearningscenteredu@gmail.com",
+  "allorialearning@gmail.com",
+  
 ];
 
 export async function sendContactEmail(
