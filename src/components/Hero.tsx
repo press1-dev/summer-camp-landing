@@ -120,7 +120,7 @@ export default function Hero() {
                     Call us today
                   </div>
                   <div className="font-display font-bold text-base text-ink">
-                    +1 (720) 242-6452
+                    +1 (720) 243-6452
                   </div>
                 </div>
               </div>

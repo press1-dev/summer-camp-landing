@@ -256,8 +256,8 @@ export default function Footer() {
               <ContactItem
                 icon={Phone}
                 title="Direct Line"
-                value="+1 (720) 242-6452"
-                href="tel:+17202426452"
+                value="+1 (720) 243-6452"
+                href="tel:+17202436452"
               />
               <ContactItem
                 icon={Mail}
