@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { User, Mail, Phone, Smile, MessageSquare, ChevronRight, ChevronLeft, Calendar, Info, Target, Monitor, Globe, ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, Mail, Phone, Smile, MessageSquare, ChevronRight, ChevronLeft, Calendar, Info, Target, Monitor, Globe, ChevronDown, Check, X } from "lucide-react";
 
-type FieldType = "text" | "email" | "tel" | "select" | "radio" | "textarea";
+type FieldType = "text" | "email" | "tel" | "select" | "radio" | "textarea" | "multiselect";
 
 export interface FormField {
   name: string;
@@ -74,7 +74,7 @@ const PROGRAM_SCHEMAS: Record<string, FormStep[]> = {
       title: "Personal Development",
       subtitle: "Focusing on personal growth",
       fields: [
-        { name: "personal_challenge", label: "Biggest personal challenge right now?", type: "select", options: ["Communication", "Confidence", "Time management", "Public speaking", "Other"] },
+        { name: "personal_challenge", label: "Biggest personal challenge right now?", type: "multiselect", options: ["Communication", "Confidence", "Time management", "Public speaking", "Other"] },
       ]
     }
   ]
@@ -128,7 +128,18 @@ export default function DynamicForm({ programId, accent }: DynamicFormProps) {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const styles = getAccentStyles(accent);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (openDropdown && !(e.target as HTMLElement).closest(".multiselect-container")) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [openDropdown]);
 
 
 
@@ -259,6 +270,72 @@ export default function DynamicForm({ programId, accent }: DynamicFormProps) {
               {field.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
             </select>
             <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-ink-mute"><ChevronDown size={14} strokeWidth={2.5} /></span>
+          </div>
+        ) : field.type === "multiselect" ? (
+          <div className="relative multiselect-container w-full">
+            <div
+              onClick={() => setOpenDropdown(openDropdown === field.name ? null : field.name)}
+              className={`w-full px-5 py-3 bg-cream/50 border-2 border-line rounded-xl text-ink font-semibold text-[15px] transition-all duration-200 focus:outline-none focus:bg-white flex items-center justify-between cursor-pointer min-h-[58px] ${hasError ? "border-coral bg-coral/5" : openDropdown === field.name ? styles.border + " bg-white shadow-[0_0_0_4px_rgba(31,24,64,0.05)]" : "hover:bg-cream"}`}
+            >
+              <div className="flex flex-wrap gap-1.5 pr-6 py-0.5">
+                {value ? (
+                  value.split(", ").map(item => (
+                    <span
+                      key={item}
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[13px] font-bold ${styles.bg} text-white shadow-xs animate-in zoom-in-95 duration-150`}
+                    >
+                      {item}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const currentList = value.split(", ");
+                          const newVal = currentList.filter(x => x !== item).join(", ");
+                          setFormData(prev => ({ ...prev, [field.name]: newVal }));
+                        }}
+                        className="hover:bg-white/20 rounded p-0.5 transition-colors"
+                      >
+                        <X size={12} />
+                      </button>
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-ink-mute font-normal">Select options</span>
+                )}
+              </div>
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-ink-mute">
+                <ChevronDown size={14} strokeWidth={2.5} className={`transition-transform duration-200 ${openDropdown === field.name ? "rotate-180" : ""}`} />
+              </span>
+            </div>
+            
+            {openDropdown === field.name && (
+              <div className="absolute z-50 left-0 right-0 mt-2 bg-white border-2 border-line rounded-xl shadow-xl overflow-hidden py-1.5 animate-in fade-in slide-in-from-top-2 duration-150 max-h-60 overflow-y-auto">
+                {field.options?.map(opt => {
+                  const selectedList = value ? value.split(", ") : [];
+                  const isSelected = selectedList.includes(opt);
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => {
+                        let newVal;
+                        if (isSelected) {
+                          newVal = selectedList.filter(x => x !== opt);
+                        } else {
+                          newVal = [...selectedList, opt];
+                        }
+                        setFormData(prev => ({ ...prev, [field.name]: newVal.join(", ") }));
+                        if (errors[field.name]) setErrors(prev => ({ ...prev, [field.name]: "" }));
+                      }}
+                      className={`w-full px-5 py-3 text-left text-[14px] font-semibold flex items-center justify-between hover:bg-cream transition-colors duration-150 ${isSelected ? styles.activeBg + ' ' + styles.text : 'text-navy'}`}
+                    >
+                      <span>{opt}</span>
+                      {isSelected && <Check size={16} strokeWidth={3} className={styles.text} />}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         ) : field.type === "radio" ? (
           <div className={radioGroupCls}>
