@@ -1,5 +1,16 @@
-import { readMessages, writeMessages } from "./emailStore";
-import type { ContactPayload } from "./emailStore";
+export interface ContactPayload {
+  studentName: string;
+  studentAge: string;
+  studentGrade: string;
+  location: string;
+  parentName: string;
+  zoomEmail: string;
+  parentEmail?: string;
+  parentPhone?: string;
+  programType: string;
+  details: { label: string; value: string }[];
+  extraNotes?: string;
+}
 
 const DEFAULT_RECIPIENTS = [
   "sushanthona04@gmail.com",
@@ -98,17 +109,9 @@ export async function sendContactEmail(
     }
   }
 
-  // No email provider configured: persist to local storage for later pickup
-  try {
-    const now = new Date().toISOString();
-    const stored = await readMessages("submissions");
-    stored.unshift({ ...payload, receivedAt: now, recipients: recipients.join(","), via: "file" });
-    await writeMessages("submissions", stored);
-    return { ok: true, via: "file" };
-  } catch (e) {
-    console.error("Fallback storage failed", e);
-    return { ok: false, error: String(e) };
-  }
+  // No email provider configured, and no fallback allowed on read-only serverless filesystems
+  console.error("All email providers failed or none configured. Failing statelessly.");
+  return { ok: false, error: "No active email provider (Resend/SendGrid/SMTP) was successfully connected." };
 }
 
 function makeText(p: ContactPayload) {
