@@ -20,12 +20,12 @@ const ContactRequestSchema = z.object({
   programType: z.enum(['computer', 'academics', 'personal']),
   details: z.array(DetailItemSchema),
   extraNotes: z.string().trim().optional(),
-});
+}).passthrough();
 
 // Clean, strongly typed response structures for client consumption
 export type ContactApiResponse = 
   | { ok: true; via: string }
-  | { ok: false; error: string; validationErrors?: Record<string, string[]> };
+  | { ok: false; error: string; validationErrors?: Record<string, string[] | undefined> };
 
 export async function POST(request: Request) {
   console.log('[Contact API] Received stateless inquiry submission request.');
